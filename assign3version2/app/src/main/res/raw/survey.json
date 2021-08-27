@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Survey Title",
+    "questions": [
+      {
+        "question": "Did you watch Big Bang Theory Yesterday?",
+        "type": "Radio Button",
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Did you watch Big Bang Theory Yesterday?",
+        "type": "Radio Button",
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "question": "Which colour you like the most?",
+        "type": "Radio Button",
+        "options": [
+          "Red",
+          "Blue",
+          "Green",
+          "Yellow",
+          "Violet"
+        ]
+      },
+      {
+        "question": "Which cricketer you like the most?",
+        "type": "Radio Button",
+        "options": [
+          "Root",
+          "Smith",
+          "Kane",
+          "Kohli"
+        ]
+      }
+    ]
+  }
+]

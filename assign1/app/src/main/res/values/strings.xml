@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">assign1</string>
+    <string name="result_message">Result:</string>
+    <string name="button_launch_activity2">Launch activity 2</string>
+    <string name="number_1">Enter Number1</string>
+    <string name="number_2">Enter Number2</string>
+    <string name="button_calculate_sum">Calculate Sum</string>
+</resources>
