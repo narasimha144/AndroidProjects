@@ -37,10 +37,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         downloadButton.setOnClickListener(this);
 
         DownloadResultReceiver downloadResultReceiver = new DownloadResultReceiver(new Handler());
-        Intent serviceInvokingIntent = new Intent(this, boundDownloadService.class);
-        serviceInvokingIntent.putExtra(downloadingFileUrl, "https://eprint.iacr.org/2021/848.pdf");
-        serviceInvokingIntent.putExtra(resultReceiverName, downloadResultReceiver);
-        bindService(serviceInvokingIntent, connection, Context.BIND_AUTO_CREATE);
+
+        Intent startServiceIntent = new Intent(this, BoundStartedService.class);
+        startServiceIntent.putExtra(resultReceiverName, downloadResultReceiver);
+        startService(startServiceIntent);
+
+//        Intent serviceInvokingIntent = new Intent(this, boundDownloadService.class);
+//        serviceInvokingIntent.putExtra(downloadingFileUrl, "https://eprint.iacr.org/2021/848.pdf");
+//        serviceInvokingIntent.putExtra(resultReceiverName, downloadResultReceiver);
+//        bindService(serviceInvokingIntent, boundConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     public void askForPermissions() {
@@ -69,10 +79,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             String filePath = resultData.getString(downloadedFilePath);
             Log.d(TAG, "Download successful. Find the downloaded file at " + filePath);
+            unbindService(boundStartedConnection);
         }
     }
 
-    private ServiceConnection connection = new ServiceConnection() {
+    private ServiceConnection boundConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             boundDownloadService.MyBinder binder = (boundDownloadService.MyBinder) iBinder;
@@ -82,6 +93,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
 
+        }
+    };
+
+    private ServiceConnection boundStartedConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            Log.d(TAG, "BoundStartedConnection onServiceConnected called");
+            BoundStartedService.BoundStartedBinder binder = (BoundStartedService.BoundStartedBinder) iBinder;
+            binder.downloadFile();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            Log.d(TAG, "BoundStartedConnection OnServiceDisconnected called");
         }
     };
 
@@ -101,7 +126,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        startService(serviceInvokingIntent);
 //        getApplicationContext().startForegroundService(serviceInvokingIntent);
 
-        mService.downloadFile();
+//        mService.downloadFile();
+
+        Intent bindServiceIntent = new Intent(this, BoundStartedService.class);
+        bindServiceIntent.putExtra(downloadingFileUrl, "https://eprint.iacr.org/2021/848.pdf");
+        bindService(bindServiceIntent, boundStartedConnection, Context.BIND_AUTO_CREATE);
     }
 
 }

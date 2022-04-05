@@ -18,9 +18,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FilesDownloader">
         <service
-            android:name=".boundDownloadService"
+            android:name=".BoundStartedService"
             android:enabled="true"
             android:exported="true"></service>
+        <service
+            android:name=".boundDownloadService"
+            android:enabled="true"
+            android:exported="true" />
         <service
             android:name=".foregroundStartedService"
             android:enabled="true"

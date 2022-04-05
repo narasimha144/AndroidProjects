@@ -27,7 +27,7 @@ class DownloadTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-    i+=1;
+        i+=1;
         File downloadFile = new File(Environment.getExternalStorageDirectory() + "/"+ fileName);
         if (downloadFile.exists())
             downloadFile.delete();
